@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinTrack - Crypto Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- ================= LANDING PAGE ================= -->
+
+<header class="landing-nav">
+    <a href="#home" class="logo">Coin<span>Track</span></a>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#market">Market</a>
+        <a href="#contact">Contact</a>
+        <button class="btn primary" onclick="openLogin()">Login</button>
+    </nav>
+</header>
+
+<section id="home" class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">LIVE CRYPTO MARKET</span>
+
+        <h1>
+            Track the crypto market
+            <span>smarter.</span>
+        </h1>
+
+        <p>
+            Monitor cryptocurrency prices, discover trending coins,
+            manage your watchlist and track your portfolio in one
+            simple dashboard.
+        </p>
+
+        <button class="btn primary" onclick="openLogin()">
+            Open Dashboard
+        </button>
+
+    </div>
+
+    <div class="hero-card">
+
+        <div class="bitcoin-icon">₿</div>
+
+        <h3>Bitcoin</h3>
+
+        <strong id="heroPrice">$--</strong>
+
+        <small>Live market data</small>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section id="features" class="section">
+
+    <h2>Powerful Features</h2>
+
+    <p class="muted">
+        Everything you need for a clean crypto tracking experience.
+    </p>
+
+    <div class="feature-grid">
+
+        <div class="feature">
+            <div>📊</div>
+            <h3>Live Market</h3>
+            <p>
+                View cryptocurrency prices, market cap,
+                trading volume and 24h changes.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div>⭐</div>
+            <h3>Watchlist</h3>
+            <p>
+                Save your favorite cryptocurrencies
+                for quick access.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div>💼</div>
+            <h3>Portfolio</h3>
+            <p>
+                Track your crypto holdings,
+                value and profit or loss.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div>🔎</div>
+            <h3>Search & Filter</h3>
+            <p>
+                Find coins by name, symbol,
+                price and market performance.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MARKET OVERVIEW -->
+
+<section id="market" class="section">
+
+    <h2>Market Overview</h2>
+
+    <p class="muted">
+        Cryptocurrency market information.
+    </p>
+
+    <div class="overview-grid">
+
+        <div class="stat">
+            <span>Total Market Cap</span>
+            <strong id="landingCap">Loading...</strong>
+        </div>
+
+        <div class="stat">
+            <span>Bitcoin</span>
+            <strong id="landingBTC">Loading...</strong>
+        </div>
+
+        <div class="stat">
+            <span>Ethereum</span>
+            <strong id="landingETH">Loading...</strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section id="contact" class="section contact">
+
+    <h2>Contact</h2>
+
+    <p>
+        For project feedback or queries, use the contact
+        details provided by the project owner.
+    </p>
+
+</section>
+
+
+<footer>
+    © 2026 CoinTrack | Crypto Dashboard
+</footer>
+
+
+<!-- ================= LOGIN MODAL ================= -->
+
+<div id="loginModal" class="modal hidden">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeLogin()">×</button>
+
+        <h2 id="authTitle">Login</h2>
+
+        <p class="muted">
+            Demo account:
+            demo@cointrack.com / 123456
+        </p>
+
+        <input
+            id="authName"
+            class="hidden"
+            placeholder="Full name"
+        >
+
+        <input
+            id="authEmail"
+            type="email"
+            placeholder="Email"
+            value="demo@cointrack.com"
+        >
+
+        <input
+            id="authPassword"
+            type="password"
+            placeholder="Password"
+            value="123456"
+        >
+
+        <button
+            class="btn primary full"
+            onclick="submitAuth()"
+        >
+            Login
+        </button>
+
+        <button
+            class="link-btn"
+            onclick="toggleSignup()"
+        >
+            Create account
+        </button>
+
+        <button
+            class="link-btn"
+            onclick="forgotPassword()"
+        >
+            Forgot password?
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<div id="app" class="app hidden">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="side-brand">
+            Coin<span>Track</span>
+        </div>
+
+        <button onclick="showPage('dashboard')">
+            🏠 Dashboard
+        </button>
+
+        <button onclick="showPage('markets')">
+            📈 Markets
+        </button>
+
+        <button onclick="showPage('watchlist')">
+            ⭐ Watchlist
+        </button>
+
+        <button onclick="showPage('portfolio')">
+            💼 Portfolio
+        </button>
+
+        <button onclick="showPage('profile')">
+            👤 Profile
+        </button>
+
+        <button onclick="showPage('settings')">
+            ⚙️ Settings
+        </button>
+
+        <button onclick="logout()">
+            🚪 Logout
+        </button>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <button
+                    class="mobile-menu"
+                    onclick="toggleSidebar()"
+                >
+                    ☰
+                </button>
+
+                <span id="pageTitle">
+                    Dashboard
+                </span>
+            </div>
+
+            <div id="userMini">
+                Guest
+            </div>
+
+        </div>
+
+
+        <!-- DASHBOARD -->
+
+        <section id="dashboard" class="page">
+
+            <div class="welcome">
+
+                <div>
+
+                    <h1>
+                        Welcome back 👋
+                    </h1>
+
+                    <p class="muted">
+                        Your cryptocurrency market overview.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="loadMarketData()"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat">
+                    <span>Total Market Cap</span>
+                    <strong id="totalCap">--</strong>
+                </div>
+
+                <div class="stat">
+                    <span>Bitcoin Price</span>
+                    <strong id="btcPrice">--</strong>
+                </div>
+
+                <div class="stat">
+                    <span>Ethereum Price</span>
+                    <strong id="ethPrice">--</strong>
+                </div>
+
+                <div class="stat">
+                    <span>Coins Loaded</span>
+                    <strong id="coinCount">--</strong>
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+
+                    <div class="panel-head">
+
+                        <h3>
+                            Market Trend
+                        </h3>
+
+                        <span id="lastUpdated">
+                            Loading...
+                        </span>
+
+                    </div>
+
+                    <canvas id="marketChart"></canvas>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <h3>
+                        Trending Coins
+                    </h3>
+
+                    <div id="trendingList"></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+
+                    <h3>
+                        Top Gainers
+                    </h3>
+
+                    <div id="gainersList"></div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <h3>
+                        Top Losers
+                    </h3>
+
+                    <div id="losersList"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MARKETS -->
+
+        <section id="markets" class="page hidden">
+
+            <div class="section-head">
+
+                <div>
+
+                    <h1>
+                        Cryptocurrency Listings
+                    </h1>
+
+                    <p class="muted">
+                        Search and filter cryptocurrencies.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="filters">
+
+                <input
+                    id="searchInput"
+                    placeholder="Search coin name or symbol"
+                    oninput="renderMarkets()"
+                >
+
+                <select
+                    id="filterSelect"
+                    onchange="renderMarkets()"
+                >
+
+                    <option value="all">
+                        All Coins
+                    </option>
+
+                    <option value="marketcap">
+                        Highest Market Cap
+                    </option>
+
+                    <option value="price">
+                        Highest Price
+                    </option>
+
+                    <option value="change">
+                        24h Change
+                    </option>
+
+                    <option value="gainers">
+                        Top Gainers
+                    </option>
+
+                    <option value="losers">
+                        Top Losers
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Rank</th>
+                            <th>Coin</th>
+                            <th>Price</th>
+                            <th>24h</th>
+                            <th>Market Cap</th>
+                            <th>Volume</th>
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="marketTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- WATCHLIST -->
+
+        <section id="watchlist" class="page hidden">
+
+            <div class="section-head">
+
+                <div>
+
+                    <h1>
+                        Watchlist
+                    </h1>
+
+                    <p class="muted">
+                        Your saved cryptocurrencies.
+                    </p>
+
+                </div>
+
+                <input
+                    id="watchSearch"
+                    placeholder="Search watchlist"
+                    oninput="renderWatchlist()"
+                >
+
+            </div>
+
+
+            <div
+                id="watchlistGrid"
+                class="coin-grid"
+            ></div>
+
+        </section>
+
+
+        <!-- PORTFOLIO -->
+
+        <section id="portfolio" class="page hidden">
+
+            <div class="section-head">
+
+                <div>
+
+                    <h1>
+                        Portfolio
+                    </h1>
+
+                    <p class="muted">
+                        Track owned cryptocurrency and profit/loss.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn primary"
+                    onclick="openHoldingModal()"
+                >
+                    + Add Holding
+                </button>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat">
+
+                    <span>
+                        Portfolio Value
+                    </span>
+
+                    <strong id="portfolioValue">
+                        $0
+                    </strong>
+
+                </div>
+
+                <div class="stat">
+
+                    <span>
+                        Total P/L
+                    </span>
+
+                    <strong id="portfolioPL">
+                        $0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Coin</th>
+                            <th>Quantity</th>
+                            <th>Buy Price</th>
+                            <th>Current Value</th>
+                            <th>P/L</th>
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="portfolioTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROFILE -->
+
+        <section id="profile" class="page hidden">
+
+            <h1>
+                User Profile
+            </h1>
+
+
+            <div class="profile-grid">
+
+                <div class="panel profile-card">
+
+                    <div
+                        class="avatar"
+                        id="avatar"
+                    >
+                        Y
+                    </div>
+
+                    <input
+                        id="profilePic"
+                        placeholder="Profile picture URL"
+                    >
+
+                    <input
+                        id="profileName"
+                        placeholder="Name"
+                    >
+
+                    <input
+                        id="profileEmail"
+                        placeholder="Email"
+                    >
+
+                    <button
+                        class="btn primary"
+                        onclick="saveProfile()"
+                    >
+                        Save Profile
+                    </button>
+
+                </div>
+
+
+                <!-- CHANGE PASSWORD -->
+
+                <div class="panel password-card">
+
+                    <h3>
+                        Change Password
+                    </h3>
+
+                    <p class="muted">
+                        Update your account password.
+                    </p>
+
+                    <input
+                        id="currentPassword"
+                        type="password"
+                        placeholder="Current Password"
+                    >
+
+                    <input
+                        id="newPassword"
+                        type="password"
+                        placeholder="New Password"
+                    >
+
+                    <input
+                        id="confirmPassword"
+                        type="password"
+                        placeholder="Confirm Password"
+                    >
+
+                    <button
+                        class="btn primary"
+                        onclick="changePassword()"
+                    >
+                        Change Password
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SETTINGS -->
+
+        <section id="settings" class="page hidden">
+
+            <h1>
+                Settings
+            </h1>
+
+            <div class="panel settings-list">
+
+                <label>
+                    Theme
+
+                    <select
+                        id="themeSelect"
+                        onchange="setTheme(this.value)"
+                    >
+
+                        <option value="light">
+                            Light
+                        </option>
+
+                        <option value="dark">
+                            Dark
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+                    Currency
+
+                    <select
+                        id="currencySelect"
+                        onchange="setCurrency(this.value)"
+                    >
+
+                        <option value="USD">
+                            USD
+                        </option>
+
+                        <option value="INR">
+                            INR
+                        </option>
+
+                        <option value="EUR">
+                            EUR
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+                    Notifications
+
+                    <input
+                        id="notifications"
+                        type="checkbox"
+                        onchange="saveNotification(this.checked)"
+                    >
+
+                </label>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- COIN DETAILS MODAL -->
+
+<div
+    id="coinModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box wide">
+
+        <button
+            class="close"
+            onclick="closeCoin()"
+        >
+            ×
+        </button>
+
+        <div id="coinDetails"></div>
+
+    </div>
+
+</div>
+
+
+<!-- PORTFOLIO MODAL -->
+
+<div
+    id="holdingModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeHoldingModal()"
+        >
+            ×
+        </button>
+
+        <h2 id="holdingTitle">
+            Add Holding
+        </h2>
+
+        <select id="holdingCoin"></select>
+
+        <input
+            id="holdingQty"
+            type="number"
+            step="any"
+            placeholder="Quantity"
+        >
+
+        <input
+            id="holdingBuy"
+            type="number"
+            step="any"
+            placeholder="Buy Price (USD)"
+        >
+
+        <button
+            class="btn primary full"
+            onclick="saveHolding()"
+        >
+            Save Holding
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
